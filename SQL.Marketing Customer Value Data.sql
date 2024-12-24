@@ -305,5 +305,3 @@ ORDER BY
 -- Special Auto.
 -- Web: Female customers show significantly higher CLV for Special Auto and Corporate Auto 
 -- policies.
-
--- !CHECK MY VISUALISATION IN TABLEAU 
