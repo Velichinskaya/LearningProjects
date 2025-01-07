@@ -1,0 +1,32 @@
+PetMind is a retailer of products for pets. PetMind sells products that are a mix of luxury items and everyday items. Luxury items include toys. Everyday items include food.
+The company wants to increase sales by selling more products for some animals repeatedly.They have been testing this approach for the last year.
+They now want a report on how repeat purchases impact sales.
+
+-- Data cleaning:
+
+SELECT product_id, 
+	CASE WHEN category = '-' THEN 'Unknown' ELSE category END AS category,
+	animal,
+	CASE WHEN price = 'unlisted' then 0 else price::numeric end as price,
+	sales,
+	CASE WHEN rating IS NULL THEN 0 ELSE rating END AS rating,
+	INITCAP(size) as size
+FROM pet_supplies
+
+-- Showing whether sales are higher for repeat purchases for different animals:
+
+SELECT animal,
+	repeat_purchase,
+	ROUND(AVG(sales)) AS avg_sales,
+	ROUND(MIN(sales)) AS min_sales,
+	ROUND(MAX(sales)) AS max_sales
+FROM pet_supplies
+GROUP BY animal, repeat_purchase;
+
+-- The management team want to focus on efforts in the next year on the most popular pets - cats and dogs - for products that are bought repeatedly:
+
+SELECT product_id,
+	sales,
+	rating 
+FROM pet_supplies
+WHERE animal in ('Cat', 'Dog') AND repeat_purchase = 1;
